@@ -2,7 +2,7 @@
 -- todo logarithmic lighten 
 
 local width = get("Velo.screenWidth")
-height = get("Velo.screenHeight")
+local height = get("Velo.screenHeight")
  
 local pos = Vector2:new(0, 0)
 local size = Vector2:new(width, height)
