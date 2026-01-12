@@ -1,28 +1,29 @@
-this is a my collection of QOL velo mod scripts for speedrunners
+## this is a my collection of QOL velo mod scripts for speedrunners
 
-would always highly recommend vetting any scripts for velo before you use them. while there's no sandboxing and scripts can access beyond the game.
+i would always highly recommend vetting any scripts for velo before you use them. while there's no sandboxing and scripts can access beyond the game.
 
 
-adding to your game:
+### adding to your game
 drop scripts into the Speedrunners/Velo/scripts folder
 
-running velo scripts:
+### running velo scripts:
 taken from velo documentation
-You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
+
+>You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
 
 to run scripts you've added to the script folder just type the name without .lua at the end
 dstart for example
 
+### script descriptions
 
-
-dstart
+### dstart
 offers ways to reset a solo run with delays
 - hotkey
 - on new lap
 - on stun
 
 
-Surf
+### Surf
 a library for detecting is a player is slope surfing
 
 you can include it in your project with
