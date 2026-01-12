@@ -47,6 +47,7 @@ the player must be colliding with terrain
 the player must be holding jump and in the air
 the player must be moving upwards at a ~45°/~135° angle (i think i could replace this with something else tbh)
 the player must not be in a boost tunnel? todo test at some point
+i think falling on boxes might trigger this so todo test that as well
 --]]
 function Surf:update()
     if get("Offline Game Mods.physics.time scale") == 1 or not get("Velo.isIngame") then
