@@ -4,9 +4,7 @@ Surf = {}
 
 -- i kinda flipped the name positions testing something and forgot about it
 -- just going to leave it as is if it works ig
--- nvm i flipped it back probably won't break anything
--- don't need to reverse polarity of angle
-function Surf:getAngle(p_start, p_end) -- two Vector2
+function Surf:getAngle(p_end, p_start) -- two Vector2
     angle = math.atan(p_end.y - p_start.y, p_end.x - p_start.x)
     degrees = 180 * (angle/math.pi)
     return degrees
@@ -28,16 +26,16 @@ function Surf:new(player_number)
     -- main variables to be checked by the user
     self.surf_started = false
     self.surfing = false
-
+    self.surf_ended = false
 
     -- for detection
-    self.was_surfing = false
-    self.was_grounded = true
+    self._was_surfing = false
+    self._was_grounded = false
 
     -- angle margin of error for slope surfing
-    self.error_margin = 2
+    self._error_margin = 2
 
-    self.previous_position = get(self.player .. ".actor.position")
+    self._previous_position = get(self.player .. ".actor.position")
 
     return obj
 end
@@ -54,68 +52,65 @@ function Surf:update()
         return
     end
     
+    self.surf_ended = false
 
-    current_position = get(self.player .. ".actor.position")
-    colliding = get(self.player .. ".isCollidingWithSolid")
-    jumping = get(self.player .. ".jumpHeld")
-    in_air = get(self.player .. ".isInAir")
-
-    angle = Surf:getAngle(current_position, self.previous_position) -- inverted because dealing with negative y being up is annoying
-    surf_angle = false
+    _current_position = get(self.player .. ".actor.position")
+    _colliding = get(self.player .. ".isCollidingWithSolid")
+    _jumping = get(self.player .. ".jumpHeld")
+    _in_air = get(self.player .. ".isInAir")
+    _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
+    
+    _surf_angle = false
+    _is_surfing = false
 
     -- tried replacing this with just a check if the angle is positive but got a lot of false positives
     -- i feel like there's a better solution but this just works for now
-    if (angle >= 45 - self.error_margin) and (angle <= 45 + self.error_margin) then -- surfing right
-        surf_angle = true
+    if (_angle >= 45 - self._error_margin) and (_angle <= 45 + self._error_margin) then -- surfing right
+        _surf_angle = true
     end
 
-    if (angle >= 135 - self.error_margin) and (angle <= 135 + self.error_margin) then -- surfing left
-        surf_angle = true
+    if (_angle >= 135 - self._error_margin) and (_angle <= 135 + self._error_margin) then -- surfing left
+        _surf_angle = true
     end
 
-    
-    if surf_angle and jumping and in_air and colliding and not was_grounded then
-        is_surfing = true
+    -- checking if all the requirements are met
+    if _surf_angle and _jumping and _in_air and _colliding and not self._was_grounded then
+        _is_surfing = true
     else
-        is_surfing = false
+        _is_surfing = false
     end
 
-    if is_surfing and not self.was_surfing then -- start of surf
-        self.was_surfing = true
-
+    if _is_surfing and not self._was_surfing then -- start of surf
+        self._was_surfing = true
         self.surf_started = true
         self.surfing = true
 
-
-
-    elseif self.was_surfing and is_surfing then -- currently surfing
+    elseif self._was_surfing and _is_surfing then -- currently surfing
         self.surf_started = false
         self.surfing = true
 
-    elseif self.was_surfing and not surfing then -- end of surf
-        self.was_surfing = false
-        self.was_grounded = true
+    elseif self._was_surfing and not _is_surfing then -- end of surf
+        self._was_surfing = false
+        self._was_grounded = true
 
         self.surf_started = false
         self.surfing = false
-
+        self.surf_ended = true
     end
 
     
 
 
-
-
     -- this is for when you're already on a slope and jump, doesn't count as a surf
-    if not in_air and colliding then -- on the ground
-        self.was_grounded = true
-    elseif in_air and colliding and self.was_grounded then -- was just on the ground but in the air now invalid surf
-        self.was_grounded = true
+    if not _in_air and _colliding then -- on the ground
+        self._was_grounded = true
+    elseif _in_air and _colliding and self._was_grounded then -- was just on the ground but in the air now invalid surf
+        self._was_grounded = true
     else
-        self.was_grounded = false
+        self._was_grounded = false
     end
 
-    self.previous_position = current_position
+    self._previous_position = _current_position
 
 end
 
