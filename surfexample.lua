@@ -24,7 +24,6 @@ onPostUpdate = function()
     
     if s.surf_started then
         playSound(audio, volume, pitch, 0) -- remove this if you don't want sound
-
         offset = vertical_offset
 
         if get(s.player .. ".moveDirection") == 1 then
@@ -48,10 +47,13 @@ onPostUpdate = function()
         
     end
 
+    if s.surf_ended then
+
+    end
+
 end
 
 onPostDraw = function()
-
 
     drawLine(worldToScreen(surf_start), worldToScreen(surf_end), 3, Color:new(255, 0, 0))
 
