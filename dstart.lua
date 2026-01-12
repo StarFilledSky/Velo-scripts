@@ -39,9 +39,10 @@ stun_countdown_timer = 0.3 -- how long before the lap resets when the player is 
 display_num = 3 -- the number the display counts down from is real_time_display is false 3..2..1..
 real_time_display = false -- whether it counts down from the display number or the realtime 
 
+restart_on_hotkey = false -- on hotkey press
 restart_on_lap = true -- resets when a lap is completed
 restart_on_stun = false -- resets the lap when player is stunned
-restart_on_no_movement = true -- not implemented
+-- restart_on_no_movement = true -- not implemented
 
 -- display text settings
 pos = Vector2:new(0, 0) -- x and y pixel position on the screen starts from top left
@@ -69,6 +70,10 @@ end
 
 -- fires when inputs are polled
 onSetInputs = function()
+    if not restart_on_hotkey then
+        return
+    end
+
     if isReleased(hotkey) and state == STANDBY then -- on press initialize the reset
         state = INITIALIZATION
         wait_time = hotkey_countdown_timer
@@ -85,9 +90,8 @@ onLapFinish = function()
     end
 end
 
--- for stun check
 onPostUpdate = function()
-    if not get("Velo.isIngame") and not get("Velo.isOnline") then
+    if not get("Velo.isIngame") or get("Velo.isOnline") then
         state = STANDBY
         return
     end
