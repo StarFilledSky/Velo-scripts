@@ -10,8 +10,8 @@ local size = Vector2:new(width, height)
 local alpha = 0
 
 local max = 100
-local darken_rate = 5
-local lighten_rate = 0.1
+local darken_rate = 3 -- the speed at which the screen darkens
+local lighten_rate = 0.1 -- the speed at which the screen returns to normal
 
 -- p sure this isn't framerate dependent bt whatever
 onPostUpdate = function()
