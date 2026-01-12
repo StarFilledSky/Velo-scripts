@@ -1,6 +1,6 @@
 ## this is a my collection of QOL velo mod scripts for speedrunners
 
-i would always highly recommend vetting any scripts for velo before you use them. while there's no sandboxing and scripts can access beyond the game.
+i would always highly recommend vetting any scripts for velo before you use them. there's no sandboxing and scripts can easily access beyond the game.
 
 
 ## adding to your game
