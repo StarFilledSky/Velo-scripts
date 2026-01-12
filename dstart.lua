@@ -12,48 +12,49 @@ todo
 
 
 --[[PROGRAM VARIABLES]]
-wait_time = 0
-countdown_start = 0
-countdown_end = 0
-display_time = ""
+local wait_time = 0
+local countdown_start = 0
+local countdown_end = 0
+local display_time = ""
 
-state = 0
-STANDBY = 0
-INITIALIZATION = 1
-COUNTDOWN = 2
+local state = 0
+local STANDBY = 0
+local INITIALIZATION = 1
+local COUNTDOWN = 2
 
-width = get("Velo.screenWidth")
-height = get("Velo.screenHeight")
-
-
+local width = get("Velo.screenWidth")
+local height = get("Velo.screenHeight")
 
 --[[USER CHANGABLE VARIABLES]]
 -- you can find the keys https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-hotkey = 0x42 -- b by default
+local hotkey = 0x42 -- b by default
 
 -- wait times for different resets in seconds
-hotkey_countdown_timer = 0.5 -- how long before the lap resets when the hotkey is pressed in seconds
-lap_countdown_timer = 1.5 -- how long before the lap resets on completion of a lap
+local hotkey_countdown_timer = 0.5 -- how long before the lap resets when the hotkey is pressed in seconds
+local lap_countdown_timer = 1.5 -- how long before the lap resets on completion of a lap
 stun_countdown_timer = 0.3 -- how long before the lap resets when the player is stunned
 
-display_num = 3 -- the number the display counts down from is real_time_display is false 3..2..1..
-real_time_display = false -- whether it counts down from the display number or the realtime 
+local display_num = 3 -- the number the display counts down from is real_time_display is false 3..2..1..
+local real_time_display = false -- whether it counts down from the display number or the realtime 
 
-restart_on_hotkey = false -- on hotkey press
-restart_on_lap = true -- resets when a lap is completed
-restart_on_stun = false -- resets the lap when player is stunned
+local restart_on_hotkey = true -- on hotkey press
+local restart_on_lap = true -- resets when a lap is completed
+local restart_on_stun = false -- resets the lap when player is stunned
 -- restart_on_no_movement = true -- not implemented
 
+
+
+
 -- display text settings
-pos = Vector2:new(0, 0) -- x and y pixel position on the screen starts from top left
-size = Vector2:new(width, height)
-alignment = Vector2:new(0.5, 0.2) -- % relative position from the pos variable
-scale = 1 
-rotation = 0
-font = "UI\\Font\\GOTHICB.TTF" -- starts from the content folder where sr is
-font_size = 65
-drop_shadow = true -- drop shadow
-c = Color:new(252, 147, 170)
+local pos = Vector2:new(0, 0) -- x and y pixel position on the screen starts from top left
+local size = Vector2:new(width, height)
+local alignment = Vector2:new(0.5, 0.2) -- % relative position from the pos variable
+local scale = 1 
+local rotation = 0
+local font = "UI\\Font\\GOTHICB.TTF" -- starts from the content folder where sr is
+local font_size = 65
+local drop_shadow = true -- drop shadow
+local c = Color:new(252, 147, 170)
 
 
 function stunCheck()
