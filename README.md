@@ -56,3 +56,7 @@ it offers 3 booleans for getting the status
 - surf_started
 - surfing
 - surf_ended
+
+### surf example
+
+this is an example file that plays a sound at the start of a slope surf and draws a line at the latest slope surf.
