@@ -1,11 +1,13 @@
+
 --[[ delayed start
 A velo script for Speedrunners that resets a solo run lap with a delay
 
 todo
 
-- add restart on no movement
+- add restart on no movement -- don't think anyone would use this one tbh
 - restart to a savestate
 
+- test restart_on_stun
 --]]
 
 
@@ -39,38 +41,19 @@ real_time_display = false -- whether it counts down from the display number or t
 
 restart_on_lap = true -- resets when a lap is completed
 restart_on_stun = false -- resets the lap when player is stunned
-
+restart_on_no_movement = true -- not implemented
 
 -- display text settings
 pos = Vector2:new(0, 0) -- x and y pixel position on the screen starts from top left
 size = Vector2:new(width, height)
 alignment = Vector2:new(0.5, 0.2) -- % relative position from the pos variable
-scale = 1
+scale = 1 
 rotation = 0
-font = "UI\\Font\\Souses.ttf"
+font = "UI\\Font\\GOTHICB.TTF" -- starts from the content folder where sr is
 font_size = 65
 drop_shadow = true -- drop shadow
 c = Color:new(252, 147, 170)
 
-
-
--- fires when inputs are polled
-onSetInputs = function()
-
-    if isReleased(hotkey) and state == STANDBY then -- on press initialize the reset
-        state = INITIALIZATION
-        wait_time = hotkey_countdown_timer
-    elseif isReleased(hotkey) and state == COUNTDOWN then -- stops the countdown if pressed again
-        state = STANDBY
-    end
-end
-
-onLapFinish = function()
-    if restart_on_lap then
-        state = INITIALIZATION
-        wait_time = lap_countdown_timer
-    end
-end
 
 function stunCheck()
     if restart_on_stun then
@@ -82,22 +65,50 @@ function stunCheck()
     end
 end
 
-onPostUpdate = function()
-    stunCheck()
 
+
+-- fires when inputs are polled
+onSetInputs = function()
+    if isReleased(hotkey) and state == STANDBY then -- on press initialize the reset
+        state = INITIALIZATION
+        wait_time = hotkey_countdown_timer
+    elseif isReleased(hotkey) and state == COUNTDOWN then -- stops the countdown if pressed again
+        state = STANDBY
+        setSt("Offline Game Mods.physics.time scale", 1)
+    end
+end
+
+onLapFinish = function()
+    if restart_on_lap then
+        state = INITIALIZATION
+        wait_time = lap_countdown_timer
+    end
+end
+
+-- for stun check
+onPostUpdate = function()
+    if not get("Velo.isIngame") and not get("Velo.isOnline") then
+        state = STANDBY
+        return
+    end
+
+    stunCheck()
 
     if state == INITIALIZATION then
         state = COUNTDOWN
         countdown_start = get("Velo.realTime")
         -- converted to int to avoid issues with double * int
         countdown_end = countdown_start + math.tointeger(wait_time * TICKS_PER_SECOND)
+        -- pause at the start screen, doesn't invalidate a run somehow
+        setSt("Offline Game Mods.physics.time scale", 0)
+        resetLap()
 
     elseif state == COUNTDOWN then
         countdown_current = get("Velo.realTime") -- gets system time in game ticks
         
-        if countdown_current > countdown_end then
+        if countdown_current > countdown_end then -- start lap
             state = STANDBY
-            resetLap()
+            setSt("Offline Game Mods.physics.time scale", 1)
 
         else
             elapsed_time = ((countdown_current - countdown_start) /  TICKS_PER_SECOND)
