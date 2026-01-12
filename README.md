@@ -3,10 +3,10 @@
 i would always highly recommend vetting any scripts for velo before you use them. while there's no sandboxing and scripts can access beyond the game.
 
 
-### adding to your game
+## adding to your game
 drop scripts into the Speedrunners/Velo/scripts folder
 
-### running velo scripts:
+## running velo scripts:
 taken from velo documentation
 
 >You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
@@ -14,7 +14,13 @@ taken from velo documentation
 to run scripts you've added to the script folder just type the name without .lua at the end
 dstart for example
 
-### script descriptions
+## stopping velo scripts
+taken from velo documentation
+
+>You can stop a script using the `stop [name]` command and restart it using `restart [name]`, which will pass the same initial parameters to the script again. Furthermore, you can call `exit()` inside a script to stop it (do not use `stop` on itself!). Note that `exit()` will not immediately exit the script but only on the next update. You may imagine it being more of a "request stop" function. You can get a list of all currently running scripts via `listRunning`.
+
+
+## script descriptions
 
 ### dstart
 offers ways to reset a solo run with delays
@@ -22,12 +28,19 @@ offers ways to reset a solo run with delays
 - on new lap
 - on stun
 
+you can enable or disable the methods you want by changing between true and false
+
+- restart_on_hotkey
+- restart_on_lap
+- restart_on_stun
+
+you can also change the default hotkey (b) by replacing the [keycode](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+
 
 ### Surf
 a library for detecting is a player is slope surfing
 
-you can include it in your project with
-local Surf = require("Velo\\scripts\\Surf")
+you can include it in your project with `local Surf = require("Velo\\scripts\\Surf")`
 
 i would recommend this for the error checking
 
@@ -36,14 +49,10 @@ if not success then
     echo("Module failed to load: " .. Surf)
 end
 
-you can initialize it with
-
-s = Surf:new([0-4?])
-
-and add s:update() to onPostUpdate or whatever update function you're using
+you can initialize it with `s = Surf:new([0-4?])` and add `s:update()` to `onPostUpdate` or whatever update function you're using
 
 it offers 3 booleans for getting the status
 
-surf_started
-surfing
-surf_ended
+- surf_started
+- surfing
+- surf_ended
