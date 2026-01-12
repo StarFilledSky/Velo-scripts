@@ -9,16 +9,17 @@ if not get("Velo.isIngame") or get("Velo.isOnline") then
     return;
 end
 
-a = get("Player#1.name")
+local a = get("Player#1.name")
 
 if type(a) ~= "string" then
     echo("making a ghost..ok?")
     prepareGhost(0)
 end
 
-steamId = get("Velo.mySteamId")
-mapId = get("Velo.mapId")
--- requestId = nil
+local steamId = get("Velo.mySteamId")
+local mapId = get("Velo.mapId")
+-- requestId = nil -- todo uncomment this maybe and make it local
+-- i feel like i might break something somehow and i don't care to check right now
 
 -- the map ids for rws and officals are all below 200 or something
 --this just selects
