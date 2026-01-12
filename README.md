@@ -52,13 +52,20 @@ end
 you can initialize it with `s = Surf:new([player number?])` and add `s:update()` to `onPostUpdate` or whatever update function you're using
 
 it offers 3 booleans for getting the status
-```
+
 - surf_started
 - surfing
 - surf_ended
-```
+
 ### surf example
 
-this is an example file that plays a sound at the start of a slope surf and draws a line at the latest slope surf.
+this is an example file that plays a sound at the start of a slope surf and draws a line at the latest slope surf. requires Surf.lua.
 
-##
+### fade
+
+a shitpost program that makes the game harder. your screen darkens anytime you use your boost. pretty sure it's not framerate independent so you may need to play with the variables to achieve proper levels of suffering.
+
+
+### PB
+
+a script for retrieving your latest new lap pb on a map and making it the ghost. doesn't entirely work for club V. don't know why leaderboards is like that for that map.
