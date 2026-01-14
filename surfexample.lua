@@ -35,7 +35,6 @@ onPostUpdate = function()
         end
         
         surf_pos_start = get(s.player .. ".actor.position") + offset
-        surf_pos_end = get(s.player .. ".actor.position") + offset
 
     end
 
