@@ -34,12 +34,6 @@ function Surf:new(player_number)
     self._was_surfing = false
     self._was_grounded = false
 
-    -- angle margin of error for slope surfing
-    self._error_margin = 2
-
-    self._previous_position = get(self.player .. ".actor.position")
-    self._previous_frame = -1
-
     return obj
 end
 
@@ -63,26 +57,7 @@ function Surf:update()
     -- variable resets
     self.surf_ended = false
     self.oversurfed = false
-    self.paused = false
     
-    if not get("Velo.isIngame") then
-        return
-    end
-
-    -- pause checks
-    if get("Offline Game Mods.physics.time scale") == 0 then
-        self.paused = true
-    end
-    
-    if get("Velo.isPlaybackRunning") then
-        _current_frame = get("Velo.frame")
-        if self._previous_frame == _current_frame then
-            self._previous_frame = _current_frame
-            self.paused = true
-            return
-        end
-        self._previous_frame = _current_frame
-    end 
 
 
     _current_position = get(self.player .. ".actor.position")
@@ -90,34 +65,22 @@ function Surf:update()
     _jumping = get(self.player .. ".jumpHeld")
     _in_air = get(self.player .. ".isInAir")
     _in_boost_tunnel = get(self.player .. ".isInsideSuperBoost")
-
-    
     _collision_type = get(self.player .. ".groundCollidableType")
-    _tile_types = {4, 5, 120}
-
     _surfable_tile = false
 
+    
+    
+    
+    _tile_types = {4, 5, 120}
     for i, t in ipairs(_tile_types) do
         if _collision_type == t then
             _surfable_tile = true
         end
     end
 
-    -- isInsideSuperBoost : bool
-    -- isInsideSuperBoostWind : bool
-
-    _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
-  
-
-    -- tried replacing this with just a check if the angle is positive but got a lot of false positives
-    -- i feel like there's a better solution but this just works for now
-    _surf_angle_right = (_angle >= 45 - self._error_margin) and (_angle <= 45 + self._error_margin)
-    _surf_angle_left = (_angle >= 135 - self._error_margin) and (_angle <= 135 + self._error_margin)
-    _correct_surf_angle = _surf_angle_left or _surf_angle_right
     
     -- checking if all the requirements are met
-    -- _is_surfing = _correct_surf_angle and _in_air and _colliding and not self._was_grounded
-    _is_surfing = _surfable_tile and _in_air and _colliding and not self._was_grounded
+    _is_surfing = _surfable_tile and _in_air and _colliding and not self._was_grounded and not _in_boost_tunnel
 
 
     if _is_surfing and not self._was_surfing then -- start of surf

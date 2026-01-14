@@ -20,11 +20,33 @@ local surf_pos_end = get(s.player .. ".actor.position")
 local horizontal_offset = Vector2:new(25, 0)
 local vertical_offset = Vector2:new(0, 45)
 
+local previous_frame = -1
+
 onPostUpdate = function()
-    s:update()
-    if s.paused then
+    
+    
+    if not get("Velo.isIngame") then
         return
     end
+
+    -- pause checks
+    if get("Offline Game Mods.physics.time scale") == 0 then
+        return
+    end
+    
+    if get("Velo.isPlaybackRunning") then
+        _current_frame = get("Velo.frame")
+        if self._previous_frame == _current_frame then
+            self._previous_frame = _current_frame
+            self.paused = true
+            return
+        end
+        self._previous_frame = _current_frame
+    end 
+
+    s:update()
+
+
     
     if s.surf_started then
         playSound(surf_start_audio, volume, pitch, 0) -- remove this if you don't want sound
