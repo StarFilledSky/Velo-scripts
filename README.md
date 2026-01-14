@@ -70,3 +70,9 @@ a shitpost program that makes the game harder. your screen darkens anytime you u
 ### PB
 
 a script for retrieving your latest new lap pb on a map and making it the ghost. doesn't entirely work for club V. don't know why leaderboards is like that for that map.
+
+### fps
+
+drops your fps to 60 when not in game and to 300 when in game
+would suggest adding this line to the run.lua file in the scripts folder to have it run from when you start speedrunners
+`run("fps")`
