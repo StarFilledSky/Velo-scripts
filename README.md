@@ -51,11 +51,12 @@ end
 ```
 you can initialize it with `s = Surf:new([player number?])` and add `s:update()` to `onPostUpdate` or whatever update function you're using
 
-it offers 3 booleans for getting the status
+it offers 4 booleans for getting the status
 
 - surf_started
 - surfing
 - surf_ended
+- oversurfed
 
 ### surf example
 
