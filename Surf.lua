@@ -55,6 +55,7 @@ i think falling on boxes might trigger this so todo test that as well
 conditions for oversurf
 the player is still in the air after a surf is concluded
 this might have weird interactions with gates todo test
+i think double jump might also trigger this
 
 --]]
 function Surf:update()
@@ -87,7 +88,24 @@ function Surf:update()
     _current_position = get(self.player .. ".actor.position")
     _colliding = get(self.player .. ".isCollidingWithSolid")
     _jumping = get(self.player .. ".jumpHeld")
-    _in_air = get(self.player .. ".isInAir")    
+    _in_air = get(self.player .. ".isInAir")
+    _in_boost_tunnel = get(self.player .. ".isInsideSuperBoost")
+
+    
+    _collision_type = get(self.player .. ".groundCollidableType")
+    _tile_types = {4, 5, 120}
+
+    _surfable_tile = false
+
+    for i, t in ipairs(_tile_types) do
+        if _collision_type == t then
+            _surfable_tile = true
+        end
+    end
+
+    -- isInsideSuperBoost : bool
+    -- isInsideSuperBoostWind : bool
+
     _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
   
 
@@ -98,7 +116,8 @@ function Surf:update()
     _correct_surf_angle = _surf_angle_left or _surf_angle_right
     
     -- checking if all the requirements are met
-    _is_surfing = _correct_surf_angle and _in_air and _colliding and not self._was_grounded
+    -- _is_surfing = _correct_surf_angle and _in_air and _colliding and not self._was_grounded
+    _is_surfing = _surfable_tile and _in_air and _colliding and not self._was_grounded
 
 
     if _is_surfing and not self._was_surfing then -- start of surf
