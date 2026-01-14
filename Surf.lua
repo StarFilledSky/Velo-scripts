@@ -28,7 +28,7 @@ function Surf:new(player_number)
     self.surfing = false
     self.surf_ended = false
     self.oversurfed = false
-    self.paused = false
+    self.paused = false -- if the physics are at 0 or a replay hasn't progressed a frame so that programs aren't repeating something 1000 times
 
     -- for detection
     self._was_surfing = false
@@ -51,17 +51,23 @@ the player must be in the air
 the player must be moving with vertical momentum upwards at a ~45°/~135° angle (i think i could replace this with something else tbh)
 the player must not be in a boost tunnel? todo test at some point
 i think falling on boxes might trigger this so todo test that as well
+
+conditions for oversurf
+the player is still in the air after a surf is concluded
+this might have weird interactions with gates todo test
+
 --]]
 function Surf:update()
-    if not get("Velo.isIngame") then
-        return
-    end
-
+    
     -- variable resets
     self.surf_ended = false
     self.oversurfed = false
     self.paused = false
     
+    if not get("Velo.isIngame") then
+        return
+    end
+
     -- pause checks
     if get("Offline Game Mods.physics.time scale") == 0 then
         self.paused = true
@@ -76,19 +82,14 @@ function Surf:update()
         end
         self._previous_frame = _current_frame
     end 
-    
 
 
     _current_position = get(self.player .. ".actor.position")
     _colliding = get(self.player .. ".isCollidingWithSolid")
     _jumping = get(self.player .. ".jumpHeld")
-    _in_air = get(self.player .. ".isInAir")
-    
+    _in_air = get(self.player .. ".isInAir")    
     _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
-
-    _on_ground = get("Player.isOnGround")
-    -- echo(tostring(_on_ground))
-        
+  
 
     -- tried replacing this with just a check if the angle is positive but got a lot of false positives
     -- i feel like there's a better solution but this just works for now
@@ -116,32 +117,10 @@ function Surf:update()
         self.surf_started = false
         self.surfing = false
         self.surf_ended = true
-
-        self.oversurfed = not _on_ground
-
-        -- _on_ground = get("Player.isOnGround")
-
-        -- echo(tostring(self.oversurfed))
-        -- js = get("Player.jumpState")
-        
-        -- for some fucking reason if i use tostring here on js it crashes sometimes
-        -- i think it comes down to variable name ???? s crashes aaa doesn't who fucking knows
-        -- status, _jumpstate_str = pcall(tostring, js)
-        -- if not status then
-        --     echoErr(_jumpstate_str.Message)
-        -- else
-        -- end
-        -- echo("".._jumpstate_str)
-        
-        -- echo("js" .. js)
-        -- s = tostring(test) -- sometimes trying to acceess jumpstate just crashes the program ???
-        aaa = "" .. tostring(_in_air) .. " | " .. tostring(_colliding) .. " | " .. tostring(_angle) .. " | " .. tostring(self._was_grounded) .. " | " .. tostring(_on_ground)
-        echo(aaa)
+        self.oversurfed = _in_air
     end
 
     
-
-
     -- this is for when you're already on a slope and jump, doesn't count as a surf
     if not _in_air and _colliding then -- on the ground
         self._was_grounded = true
