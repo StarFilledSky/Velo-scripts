@@ -27,6 +27,8 @@ function Surf:new(player_number)
     self.surf_started = false
     self.surfing = false
     self.surf_ended = false
+    self.oversurfed = false
+    self.paused = false
 
     -- for detection
     self._was_surfing = false
@@ -54,24 +56,39 @@ function Surf:update()
     if not get("Velo.isIngame") then
         return
     end
+
+    -- variable resets
+    self.surf_ended = false
+    self.oversurfed = false
+    self.paused = false
+    
+    -- pause checks
+    if get("Offline Game Mods.physics.time scale") == 0 then
+        self.paused = true
+    end
     
     if get("Velo.isPlaybackRunning") then
         _current_frame = get("Velo.frame")
         if self._previous_frame == _current_frame then
             self._previous_frame = _current_frame
+            self.paused = true
             return
         end
         self._previous_frame = _current_frame
     end 
     
-    self.surf_ended = false
+
 
     _current_position = get(self.player .. ".actor.position")
     _colliding = get(self.player .. ".isCollidingWithSolid")
     _jumping = get(self.player .. ".jumpHeld")
     _in_air = get(self.player .. ".isInAir")
-    _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
     
+    _angle = -Surf:getAngle(_current_position, self._previous_position) -- inverted because dealing with negative y being up is annoying
+
+    _on_ground = get("Player.isOnGround")
+    -- echo(tostring(_on_ground))
+        
 
     -- tried replacing this with just a check if the angle is positive but got a lot of false positives
     -- i feel like there's a better solution but this just works for now
@@ -99,6 +116,27 @@ function Surf:update()
         self.surf_started = false
         self.surfing = false
         self.surf_ended = true
+
+        self.oversurfed = not _on_ground
+
+        -- _on_ground = get("Player.isOnGround")
+
+        -- echo(tostring(self.oversurfed))
+        -- js = get("Player.jumpState")
+        
+        -- for some fucking reason if i use tostring here on js it crashes sometimes
+        -- i think it comes down to variable name ???? s crashes aaa doesn't who fucking knows
+        -- status, _jumpstate_str = pcall(tostring, js)
+        -- if not status then
+        --     echoErr(_jumpstate_str.Message)
+        -- else
+        -- end
+        -- echo("".._jumpstate_str)
+        
+        -- echo("js" .. js)
+        -- s = tostring(test) -- sometimes trying to acceess jumpstate just crashes the program ???
+        aaa = "" .. tostring(_in_air) .. " | " .. tostring(_colliding) .. " | " .. tostring(_angle) .. " | " .. tostring(self._was_grounded) .. " | " .. tostring(_on_ground)
+        echo(aaa)
     end
 
     
