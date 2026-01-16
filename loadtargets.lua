@@ -33,6 +33,8 @@ function split(str, delimiter)
     return returnTable
 end
 
+
+
 function newNode(name, obj_type)
     node = {}
     node.name = name
@@ -61,17 +63,21 @@ function newNode(name, obj_type)
 end
 
 
--- -- add first layer targets
--- for k, target in pairs(listTargets()) do
---     root:addChild(newNode(target, "target"))
--- end
+
+
+local root = newNode("root", "root")
+
+-- add first layer targets
+for k, target in pairs(listTargets()) do
+    root:addChild(newNode(target, "target"))
+end
 
 
 
 function addType(root, target, depth)
     if depth == nil then depth = 0 end
     if depth == 3 then
-        echo("probably stuck in some recursive hellhole")
+        -- echo("probably stuck in some recursive hellhole")
         return
     end
 
@@ -80,12 +86,8 @@ function addType(root, target, depth)
     if #fields < 1 or target == fields[1] then -- no sub fields or oddities like double : double
         return
     end
-    nodetype = "subtarget"
-    
-    if depth == 0 then --------- todo add targets using this 
-        nodetype = "target"
-    end
-    node = newNode(target, nodetype)
+
+    node = newNode(target, "subtarget")
     -- tables are pass by reference so we can add the node here and add children to it later
     root:addChild(node)
 
@@ -104,63 +106,56 @@ function addType(root, target, depth)
 
 end
 
-local root = newNode("root", "root")
+for unused1, node in pairs(root.children) do
+    fields = listFields(node.name)
+    
+    for unused2, field in pairs(fields) do
+        data = split(field, " : ")
 
-for _, target in pairs(listTargets()) do
-    fields = listFields(target)
-    addType(root, target)
+        n = newNode(data[1], data[2])
+    -- tables are pass by reference so we can add the node here and add children to it later
+        node:addChild(n)
+
+        -- if the type is not in the 1st lvl depth
+        if root:isUnique(data[2]) then
+
+            addType(root, data[2])
+        end
+    --     subfields = listFields(data[2])
+
+    end
 
 end
 
--- for unused1, node in pairs(root.children) do
---     fields = listFields(node.name)
+
+function spacer(character, amnt)
+    str = ""
+    for x = 1, amnt, 1 do
+        str = str .. character
+    end
+
+    return str
+end
+
+local testfile = io.open("testing.txt", "w")
+
+function df_traversal(node, depth)
     
---     for unused2, field in pairs(fields) do
---         data = split(field, " : ")
+    if depth == nil then depth = 0 end
+    if depth == 6 then return end
 
---         n = newNode(data[1], data[2])
---     -- tables are pass by reference so we can add the node here and add children to it later
---         node:addChild(n)
+    if node.obj_type == nil then
+        echo("there is a nil")
+        echo(node.name)
+    end
 
---         -- if the type is not in the 1st lvl depth
---         if root:isUnique(data[2]) then
+    str = spacer("\t", depth) .. node.name .. " | " .. node.obj_type .. "\n"
+    testfile:write(str)
 
---             addType(root, data[2])
---         end
-
---     end
-
--- end
-
-
--- function spacer(character, amnt)
---     str = ""
---     for x = 1, amnt, 1 do
---         str = str .. character
---     end
-
---     return str
--- end
-
--- local testfile = io.open("testing.txt", "w")
-
--- function df_traversal(node, depth)
+    for _, child in pairs(node.children) do
+        df_traversal(child, depth+1)
+    end
     
---     if depth == nil then depth = 0 end
---     if depth == 6 then return end
-
---     if node.obj_type == nil then
---         echo("there is a nil")
---         echo(node.name)
---     end
-
---     str = spacer("\t", depth) .. node.name .. " | " .. node.obj_type .. "\n"
---     testfile:write(str)
-
---     for _, child in pairs(node.children) do
---         df_traversal(child, depth+1)
---     end
-    
--- end
--- df_traversal(root)
--- testfile:close()
+end
+df_traversal(root)
+testfile:close()
