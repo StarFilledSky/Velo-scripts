@@ -38,18 +38,15 @@ end
 
 --[[
 conditions for a slope surf
-the player must have been in the air previously(not just jumping from ontop a slope already)
-the player must be colliding with terrain
 the player must be in the air
-the player must be moving with vertical momentum upwards at a ~45°/~135° angle (i think i could replace this with something else tbh)
-the player must not be in a boost tunnel? todo test at some point
-i think falling on boxes might trigger this so todo test that as well
+the player must be colliding with terrain
+the player must colliding with a surface that can be surfed on
+the player must have been in the air previously(not just jumping from ontop a slope already)
+the player must not be in a boost tunnel
+
 
 conditions for oversurf
 the player is still in the air after a surf is concluded
-this might have weird interactions with gates todo test
-i think double jump might also trigger this
-
 --]]
 function Surf:update()
     
