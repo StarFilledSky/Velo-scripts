@@ -1,4 +1,13 @@
--- rough rg detection example script based on convo with beanboy
+--[[
+rough rg detection example script based on convo with beanboy
+
+i think the detection method he proposed was checking if the player was swinging left and afterwards going right
+something abt this feels wrong but it works
+
+no false positives that i observed
+
+--]]
+
 
 
 
@@ -13,12 +22,16 @@ onPostUpdate = function()
 
     grapple_dir = get("Player.grapple.direction.x")
     velocity = get("Player.actor.velocity.x")
-    is_grapple_connectedConnected = get("Player.grapple.isConnected")
+    is_grapple_connected = get("Player.grapple.isConnected")
     -- using both jump held and vy because vy doesn't reset until you swing or touch ground or something
     -- inverted y because i hate jump being negative values
     jumping = get("Player.jumpHeld") and -get("Player.jumpVelocity.y") > 0
+
+    -- using this to check if the player still has double jump which i think is a sign of an rg over like a backflip
+    -- can't consistently backflip so this untested 
+    jump_state = get("Player.jumpState")
     
-    rg = was_swinging_left and not is_grapple_connectedConnected and velocity > 0 and jumping
+    rg = was_swinging_left and not is_grapple_connected and velocity > 0 and jumping and jump_state == 1
 
     if rg then 
         echo("rg")
@@ -30,5 +43,5 @@ onPostUpdate = function()
     end
 
 
-    was_swinging_left = is_grapple_connectedConnected and grapple_dir < 0
+    was_swinging_left = is_grapple_connected and grapple_dir < 0
 end
