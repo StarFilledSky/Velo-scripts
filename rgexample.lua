@@ -26,12 +26,8 @@ onPostUpdate = function()
     -- using both jump held and vy because vy doesn't reset until you swing or touch ground or something
     -- inverted y because i hate jump being negative values
     jumping = get("Player.jumpHeld") and -get("Player.jumpVelocity.y") > 0
-
-    -- using this to check if the player still has double jump which i think is a sign of an rg over like a backflip
-    -- can't consistently backflip so this untested 
-    jump_state = get("Player.jumpState")
     
-    rg = was_swinging_left and not is_grapple_connected and velocity > 0 and jumping and jump_state == 1
+    rg = was_swinging_left and not is_grapple_connected and velocity > 0 and jumping
 
     if rg then 
         echo("rg")
