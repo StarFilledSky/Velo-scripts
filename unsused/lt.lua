@@ -13,7 +13,7 @@ Player: target
 	badConnectionImage: somethingsomething
     ...
 CActor: subtarget
-    velocity: Vector 2
+    velocity: Vector2
     id: int
     ...
 
@@ -140,7 +140,7 @@ end
 
 
 local root = newNode("root", "root")
-local file = io.open("testing.txt", "w")
+local file = io.open("targetlist.txt", "w")
 
 for _, target in pairs(listTargets()) do
     node =  newNode(target, "target")
