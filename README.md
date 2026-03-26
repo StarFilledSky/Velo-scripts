@@ -40,13 +40,8 @@ Skips the countdown when entering a stage solo, I'd recommend adding it to the o
 
 ### timed_msg.lua
 Shows a message in the top right for a specified amount of time. Trigger it from a script by using:  
-``run("timed_msg", 5, "This is my amazing message")``
-
-
-
-
-
-
+``run("timed_msg", 5, "This is my amazing message")``  
+<video src="https://github.com/user-attachments/assets/acfe94f2-d206-49d2-a533-27dc75c7568b" autoplay loop muted width="400" height="225"></video>  
 
 
 ### dstart
