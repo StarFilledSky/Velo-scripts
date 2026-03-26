@@ -10,6 +10,10 @@ Drop scripts into the Speedrunners/Velo/scripts folder
 ## Running velo scripts:
 Taken from velo documentation
 
+
+
+
+
 >You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
 
 To run scripts you've added to the script folder just type the name without .lua at the end
@@ -24,10 +28,15 @@ Taken from velo documentation
 ## Scripts
 
 ### cg.lua
-Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.
+Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.  
+https://github.com/user-attachments/assets/230886a7-779d-4de9-acaf-40ed2424ce46  
+https://github.com/user-attachments/assets/7cc8314a-ed46-4b59-a416-4f6a395639a4
+
 
 ### fastload.lua
 Skips the countdown when entering a stage solo, I'd recommend adding it to the onStart for convenience. 
+https://github.com/user-attachments/assets/8d899569-0482-419c-9aa0-6f27e8e3c72a
+
 
 ### timed_msg.lua
 Shows a message in the top right for a specified amount of time. Trigger it from a script by using:
