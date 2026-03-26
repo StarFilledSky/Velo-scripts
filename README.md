@@ -1,26 +1,44 @@
-## this is a my collection of QOL velo mod scripts for speedrunners
+## This is my collection of scripts for Velo mod for Speedrunners
 
-i would always highly recommend vetting any scripts for velo before you use them. there's no sandboxing and scripts can easily access beyond the game.
+> [!IMPORTANT]
+> I would always highly recommend vetting any scripts for velo before you use them.
+> They aren't isolated and the possibility of a script executing malicous code does exist.
 
+## Adding to your game
+Drop scripts into the Speedrunners/Velo/scripts folder
 
-## adding to your game
-drop scripts into the Speedrunners/Velo/scripts folder
-
-## running velo scripts:
-taken from velo documentation
+## Running velo scripts:
+Taken from velo documentation
 
 >You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
 
-to run scripts you've added to the script folder just type the name without .lua at the end
+To run scripts you've added to the script folder just type the name without .lua at the end
 dstart for example
 
-## stopping velo scripts
-taken from velo documentation
+## Stopping velo scripts
+Taken from velo documentation
 
 >You can stop a script using the `stop [name]` command and restart it using `restart [name]`, which will pass the same initial parameters to the script again. Furthermore, you can call `exit()` inside a script to stop it (do not use `stop` on itself!). Note that `exit()` will not immediately exit the script but only on the next update. You may imagine it being more of a "request stop" function. You can get a list of all currently running scripts via `listRunning`.
 
 
-## script descriptions
+## Scripts
+
+### cg.lua
+Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.
+
+### fastload.lua
+Skips the countdown when entering a stage solo, I'd recommend adding it to the onStart for convenience. 
+
+### timed_msg.lua
+Shows a message in the top right for a specified amount of time. Trigger it from a script by using:
+``run("timed_msg", 5, "This is my amazing message")``
+
+
+
+
+
+
+
 
 ### dstart
 offers ways to reset a solo run with delays
@@ -74,5 +92,29 @@ a script for retrieving your latest new lap pb on a map and making it the ghost.
 ### fps
 
 drops your fps to 60 when not in game and to 300 when in game
-would suggest adding this line to the run.lua file in the scripts folder to have it run from when you start speedrunners
+would suggest adding this line to the onStart.lua file in the scripts folder to have it run from when you start speedrunners
 `run("fps")`
+the onStart file gets wiped on every velo update so you'll have to readd the line.
+
+### lt
+
+a program for getting all the targets and putting it into a tree and writing it to a file. by default it writes the to speedrunners/targetlist.txt.
+todo use this for making documentation
+
+
+depth 1 contains targets and any unique field(subtargets) with subfields like actor
+depth 2 has any fields that belong to the targets or subtargets
+
+actor for example is a field with a subfield so it would show up like
+root
+    Player: target
+        actor: CActor
+        airtime: int
+        badConnectionImage: somethingsomething
+        ...
+    CActor: subtarget
+        velocity: Vector2
+        id: int
+        ...
+
+i move all the subtargets to the depth of 1 to avoid duplicates that would exponentially explode the node tree size if i just recursively added fields
