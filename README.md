@@ -8,7 +8,7 @@
 Drop scripts into the Speedrunners/Velo/scripts folder
 
 ## Running velo scripts:
-Taken from velo documentation
+Taken from Velo documentation found [here](https://github.com/rbit-sr/Lua-Guide/blob/main/_Lua%20guide.md) and also comes with the Velo install as _Lua guide.md in the main Speedrunners folder.
 
 
 
