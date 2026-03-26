@@ -29,13 +29,13 @@ Taken from velo documentation
 
 ### cg.lua
 Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.  
-<video src="https://github.com/user-attachments/assets/230886a7-779d-4de9-acaf-40ed2424ce46"></video>  
-<video src="https://github.com/user-attachments/assets/7cc8314a-ed46-4b59-a416-4f6a395639a4"></video>  
+<video src="https://github.com/user-attachments/assets/230886a7-779d-4de9-acaf-40ed2424ce46" autoplay loop muted width="400" height="225"></video>  
+<video src="https://github.com/user-attachments/assets/7cc8314a-ed46-4b59-a416-4f6a395639a4" autoplay loop muted width="400" height="225"></video>  
 
 
 ### fastload.lua
 Skips the countdown when entering a stage solo, I'd recommend adding it to the onStart for convenience.  
-<video src="https://github.com/user-attachments/assets/8d899569-0482-419c-9aa0-6f27e8e3c72a"></video>  
+<video src="https://github.com/user-attachments/assets/8d899569-0482-419c-9aa0-6f27e8e3c72a" autoplay loop muted width="400" height="225"></video>  
 
 
 ### timed_msg.lua
