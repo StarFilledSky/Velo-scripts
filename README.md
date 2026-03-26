@@ -44,11 +44,16 @@ Shows a message in the top right for a specified amount of time. Trigger it from
 <video src="https://github.com/user-attachments/assets/acfe94f2-d206-49d2-a533-27dc75c7568b" autoplay loop muted width="400" height="225"></video>  
 
 
+
+
+
+
 ### dstart
 offers ways to reset a solo run with delays
 - hotkey
 - on new lap
 - on stun
+<video src="https://github.com/user-attachments/assets/1ba4faeb-7f49-4209-bd66-93589a88afb0" autoplay loop muted width="400" height="225"></video>  
 
 you can enable or disable the methods you want by changing between true and false
 
