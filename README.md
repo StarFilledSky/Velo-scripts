@@ -34,7 +34,7 @@ Taken from velo documentation
 ### dvd.lua
 Blocks out the viewport expect for a small window that bounces around the screen.
 
-<video src="https://github.com/user-attachments/assets/e15ea72e-d383-4d68-b9c1-74558bf877a9" autoplay loop muted frameborder="0" width="400" height="225"></video>  
+<video src="https://github.com/user-attachments/assets/e15ea72e-d383-4d68-b9c1-74558bf877a9" autoplay="autoplay" type="video/mp4" autoplay loop muted frameborder="0" width="400" height="225"></video>  
 
 ### cg.lua
 Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.  
