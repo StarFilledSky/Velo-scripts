@@ -1,4 +1,6 @@
 -- dvd
+-- blocks out the viewport expect for a small window that bounces around the screen
+-- goes away when dead
 
 
 
@@ -6,17 +8,19 @@
 local width = get("Velo.screenWidth")
 local height = get("Velo.screenHeight")
 
-local position = Vector2:new(math.floor(width / 2), math.floor(height / 2))
 
+-- variables the user can mess with
 local apsect_ratio = 9 / 16
-
 local window_width = 1200
 local window_height = window_width * apsect_ratio
+local speed = 100
+local c = Color:new(0,0,0)
+
+
+local position = Vector2:new(math.floor(width / 2), math.floor(height / 2))
+local direction = Vector2:new(speed * ((math.random(0, 1) * 2) - 1), speed * ((math.random(0, 1) * 2) - 1)) -- speed * (positive|negative 1)
 
 local should_draw = true
-
-local speed = 100
-local direction = Vector2:new(speed * ((math.random(0, 1) * 2) - 1), speed * ((math.random(0, 1) * 2) - 1)) -- speed * (positive|negative 1)
 
 -- order top left, top right, bottom right, bottom left
 local verts = {
@@ -31,7 +35,6 @@ local verts = {
     d_inner = Vector2:new(0, 0),
 }
 
-local c = Color:new(0,0,0)
 
 onPostUpdate = function()
     

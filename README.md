@@ -27,6 +27,10 @@ Taken from velo documentation
 
 ## Scripts
 
+
+### dvd.lua
+Blocks out the viewport expect for a small window that bounces around the screen.
+
 ### cg.lua
 Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.  
 <video src="https://github.com/user-attachments/assets/230886a7-779d-4de9-acaf-40ed2424ce46" autoplay loop muted width="400" height="225"></video>  
@@ -44,7 +48,11 @@ Shows a message in the top right for a specified amount of time. Trigger it from
 <video src="https://github.com/user-attachments/assets/acfe94f2-d206-49d2-a533-27dc75c7568b" autoplay loop muted width="400" height="225"></video>  
 
 
+### ispam.lua
+Gives you an unlimited amount of the item you set
 
+### bspam.lua
+Gives you unlimited boost
 
 
 
