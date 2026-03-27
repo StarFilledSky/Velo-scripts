@@ -14,6 +14,9 @@ Taken from Velo documentation found [here](https://github.com/rbit-sr/Lua-Guide/
 
 
 
+
+
+
 >You can open up the console by pressing CTRL+Z. In order to change this hotkey, press F1 and change it under "Console" -> "enabled". Having opened up the console, you can now start typing commands by pressing ENTER and execute them by pressing ENTER again. Type `help` to get a list of commands and `helpAll` to get a complete list of all commands, which includes a lot of more niche commands only useful for Lua scripts. Command names are not case-sensitive, so `helpall` would work, too.
 
 To run scripts you've added to the script folder just type the name without .lua at the end
@@ -30,6 +33,8 @@ Taken from velo documentation
 
 ### dvd.lua
 Blocks out the viewport expect for a small window that bounces around the screen.
+
+<video src="https://github.com/user-attachments/assets/e15ea72e-d383-4d68-b9c1-74558bf877a9" autoplay loop muted frameborder="0" width="400" height="225"></video>  
 
 ### cg.lua
 Uses `clearcghosts` on player reset(reset button or lap completion) to keep ghosts from appearing.  
