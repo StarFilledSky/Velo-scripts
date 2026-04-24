@@ -1,18 +1,14 @@
 -- @author sky!!
-
+-- @description: awful awful code
 -- @velofields
-
 -- Rocket.actor.id
 -- 
-
 -- Player.stunnedById
 -- By default this value sits at -2147483648, The negative max value of a long I think. 
 -- When stunned, it gives the actor id of what stuned the player and we can compare this to the objects in the game as they all count/have actors. 
 -- If there's no player it just returns a table.
 -- 
 --
-
-
 local rocketIds = {}
 -- 4 players and getting the id's of the 3 prefabs or something assigned to them.
 -- the amount only increases if the player somehow exceeds 3 active rocket so it's a pretty safe bet to not check for more.
@@ -23,12 +19,11 @@ local scanRange = 4 * 3
 function scanRockets()
     rocketIds = {}
 
-    
     for i = 0, scanRange, 1 do
         local rocket = "Rocket#" .. tostring(i)
         local id = get(rocket .. ".actor.id")
-        
-    if type(id) ~= "table" then 
+
+        if type(id) ~= "table" then
             local index = #rocketIds + 1
             rocketIds[index] = {}
             rocketIds[index]["actorId"] = id
@@ -37,18 +32,16 @@ function scanRockets()
             rocketIds[index]["stunnedPlayer"] = ""
         end
 
-
     end
 
 end
 
-
-
 function update()
-    
+
     local stunnedPlayer = false
     local stunnedByRocket = false
-    local stunnedIds = {} 
+    local stunnedIds = {}
+    local stunnedPlayers = {}
 
     -- check if any players are stunned and put the id of the actor that stunned them into stunnedIds
     for i = 0, 3, 1 do
@@ -64,7 +57,7 @@ function update()
                 local data = {}
                 data["player"] = player
                 data["stunId"] = stunId
-                table.insert(stunnedIds, stunId)
+                table.insert(stunnedIds, data)
             end
         end
     end
@@ -85,22 +78,35 @@ function update()
     if stunnedPlayer then
         for x = 1, #stunnedIds, 1 do
             for y = 1, #rocketIds, 1 do
-                if stunnedIds[x] == rocketIds[y]["actorId"] and not rocketIds[y]["eventTriggered"] then
+                if stunnedIds[x]["stunId"] == rocketIds[y]["actorId"] and not rocketIds[y]["eventTriggered"] then
+
                     rocketIds[y]["eventTriggered"] = true
-                    -- rocketIds[----]["stunnedPlayer"] = "" -- TODO change stunnedids to include the player#
+                    rocketIds[y]["stunnedPlayer"] = stunnedIds[x]["player"]
 
                     stunnedByRocket = true
-                    -- echo(tostring(get(rocketIds["name"] .. ".direction")))
                 end
             end
         end
     end
-
+    
     -- if there is any player stunned by a rocket..
     -- doesn't account for toggling off while waiting
     if stunnedByRocket then
         -- rocket event stuff
-        onPostDraw = impact
+        
+        -- prep data for impact frame
+        for i = 1, #rocketIds, 1 do
+            -- echo(tostring((rocketIds[i]["eventTriggered"])))
+            -- if rocketIds[i]["eventTriggered"] then
+                -- local index = #starData + 1
+                -- starData[index]["playerPos"] = get(rocketIds[i]["stunnedPlayer"] .. ".actor.position")
+                -- starData[index]["playerVel"] = get(rocketIds[i]["stunnedPlayer"] .. ".actor.velocity")
+            -- end
+
+
+        end
+
+        -- onPostDraw = impact
         playSound("Audio\\Sfx\\Weapons\\ch_freeze.xnb", 10, 0, 0)
     end
 end
@@ -108,27 +114,24 @@ end
 -- about to write some god awful code here
 local impactTimer = 0
 local impactStep2 = 0.15
-local impactStep3 = 0.3
+local impactStep3 = 2
 local impactEnding = 1
+
+local starData = {} -- when players get hit stars appear at their location
 
 local width = get("Velo.screenWidth")
 local height = get("Velo.screenHeight")
- 
-local blackscreen_pos = Vector2:new(0, 0)
-local blackscreen_size = Vector2:new(width, height)
+
+local screenCoverPos = Vector2:new(0, 0)
+local screenCoverSize = Vector2:new(width, height)
 
 function renderIdle()
 
 end
 
--- function impactSetup()
---     impactTimer = get("Velo.deltaSec")
---     echo(tostring(impactTimer))
-
--- end
 
 function impact()
-    echo(tostring(impactTimer))
+    -- echo(tostring(impactTimer))
 
     if impactTimer >= impactEnding then
         impactTimer = 0
@@ -138,19 +141,26 @@ function impact()
 
     impactTimer = impactTimer + get("Velo.deltaSec")
     if impactTimer <= impactStep2 then
-        drawRect(blackscreen_pos, blackscreen_size, Color:new(255, 255, 255))
+        drawRect(screenCoverPos, screenCoverSize, Color:new(255, 255, 255))
 
     elseif impactTimer <= impactStep3 then
-        drawRect(blackscreen_pos, blackscreen_size, Color:new(0, 0, 0))
-        
+        drawRect(screenCoverPos, screenCoverSize, Color:new(0, 0, 0))
+
+        for star in starData do
+            local offset = 10
+            local x1 = star["playerPos"].x
+            local y1 = star["playerPos"].y
+            local x2  = star["playerPos"].x
+            local y2  = star["playerPos"].y
+            
+            drawRect(Vector2:new(x1, y1), Vector2:new(x2,y2), Color:new(255, 255, 255))
+        end
+
     elseif impactTimer <= impactEnding then
 
     end
-    
+
 end
-
-
-
 
 scanRockets()
 onPostUpdate = update
