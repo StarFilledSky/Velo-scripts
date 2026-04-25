@@ -5,8 +5,10 @@
 -- 
 -- Player.stunnedById
 -- By default this value sits at -2147483648, The negative max value of a long I think. 
--- When stunned, it gives the actor id of what stuned the player and we can compare this to the objects in the game as they all count/have actors. 
--- If there's no player it just returns a table.
+-- When stunned, it gives the actor id of what stuned the player and we can compare
+-- this to the objects in the game as they all count/have actors. 
+-- If there's no player it just returns a table. Sometimes it returns nil? I forgot
+-- to write down what causes that if I figured it out before. I think it might have had to do with alive playercount.
 -- 
 --
 local rocketIds = {}
@@ -74,7 +76,7 @@ function update()
         end
     end
 
-    -- -- check if any player was stunned by a rocket
+    -- check if any player was stunned by a rocket
     if stunnedPlayer then
         for x = 1, #stunnedIds, 1 do
             for y = 1, #rocketIds, 1 do
