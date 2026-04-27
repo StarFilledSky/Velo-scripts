@@ -1,0 +1,47 @@
+-- rocket detection test
+
+-- onPostUpdate = function() -- 2 missles show up for the player, 3 for ghost, all x y are all 0 when shooting missles
+--     for i = 0, 10 do
+--     pos = get("Rocket#".. tostring(i) .. ".actor.position")
+--     echo(tostring(i) .. ": " .. tostring(pos.x) .. " " .. tostring(pos.y))
+--     end
+-- end
+-- -----------------------------------------------------------------
+-- onPostUpdate = function() -- all missles always reads as false or just a table with the query
+--     for i = 0, 10 do
+--         r = get("Rocket#" .. tostring(i) .. ".isExploded")
+--         echo("rocket#" .. tostring(i) .. " explode status:" .. tostring(r))
+--     end
+-- end
+-- -----------------------------------------------------------------
+-- onPostUpdate = function() -- stuck on 3 for solo if i remember correctly, doesn't change value when shooting missles
+--     a = count("Rocket")
+--     echo("amnt: " .. tostring(a))
+-- end
+-- -----------------------------------------------------------------
+-- onPostUpdate = function() -- returns a string "Rocket#[#] x y"
+--     a = locate("Rocket")
+--     for _, v in pairs(a) do
+--         echo(tostring(v))
+--     end
+-- end
+--------------------------------------------------------------------
+-- local int_max = -2147483648 -- default value of stunnedById
+-- local last_num = int_max
+-- -- no idea what id this is for ngl
+-- onPostUpdate = function() -- stunnedById returns a number in the hundreds or thousands, only changes if there's multiple missles 
+--     id = get("Player.stunnedById")
+
+--     if type(id) == "number" and id ~= int_max and id ~= last_num then
+--         last_num = id
+--         m = get("Rocket#" .. tostring(id).. ".isExploded") -- just returns a table with the query
+        
+--         echo("id:" .. tostring(id))
+--         echo(tostring(m[1]))
+--     end
+-- end
+---------------------------------------------------------------------
+
+-- onPostUpdate = function() -- always returns 3
+--     echo(tostring(get("Player.rockets.count"))) 
+-- end

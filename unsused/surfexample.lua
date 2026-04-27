@@ -30,18 +30,23 @@ onPostUpdate = function()
     end
 
     -- pause checks
-    if get("Offline Game Mods.physics.time scale") == 0 then
+    if get("Velo.isPaused") then
         return
     end
     
+    if get("Offline Game Mods.physics.time scale") == 0 then
+        return
+    end
+
+
     if get("Velo.isPlaybackRunning") then
-        _current_frame = get("Velo.frame")
-        if self._previous_frame == _current_frame then
-            self._previous_frame = _current_frame
-            self.paused = true
+        current_frame = get("Velo.frame")
+        if previous_frame == current_frame then
+            previous_frame = current_frame
+            paused = true
             return
         end
-        self._previous_frame = _current_frame
+        previous_frame = current_frame
     end 
 
     s:update()
@@ -78,6 +83,7 @@ onPostUpdate = function()
 
     if s.oversurfed then
         playSound(oversurf_audio, volume, pitch, 0) -- remove this if you don't want sound
+        echo("oversurfed")
     end
 
 end

@@ -129,12 +129,14 @@ function file_traversal(node, file, depth)
         echo(node.name)
     end
     
+    if node
+
+
     str = spacer("\t", depth) .. node.name .. " | " .. node.obj_type .. "\n"
     file:write(str)
     
     for _, child in pairs(node.children) do
         file_traversal(child, file, depth + 1)
-        -- echo("breakpoint")
     end
 end
 

@@ -40,7 +40,7 @@ onReceiveRuns = function(requestId_, runs)
     for k, v in pairs(runs) do
 
         if mapId == v.mapId and v.categoryId == NEW_LAP then
-            
+            echo(tostring(v.runTime))
             if runtime  > v.runTime then
                 
                 mapPB = v

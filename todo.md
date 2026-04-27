@@ -1,0 +1,36 @@
+- [ ] time checkpoints  
+- [ ] buttons program  
+        - [ ] tas interface  
+        - [ ] tas functions
+                - [ ] auto fg
+                - [ ] auto spam grapple
+                - [ ] auto straight grapple
+                - [ ] jump on land
+
+- [ ] ui program  
+- [ ] chat program  
+- [ ] find a way to benchmark scripts  
+- [ ] combo system  
+- [ ] notification type system  
+- [ ] rws button that lets you select which maps are included  
+- [ ] save all replays  
+- [ ] jump hold improved display
+- [x]  release timing tracker 
+- [ ] find where jumpstate actually is  
+- [ ] make a rgb function so that it will trigger vscode color decorators  
+- [ ] ls but with columns  
+- [ ] buttons for creating a savestate at a replay location  
+- [ ] game tracking system  / like wins and shit
+- [ ] trainers for learning tech
+        - [ ] spam grapple
+        - [ ]
+- [ ] console overlay
+- [ ] route horse
+- [ ] round time
+- [x] speed physics to skip countdown at the start -- quickstart 
+- [ ] ui maxxing
+- [ ]
+- [x] rg detection // done-ish  
+- [x] surf detection //done-ish  
+- [ ] improve surf performance  
+

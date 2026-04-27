@@ -19,13 +19,14 @@ onPostUpdate = function()
         return
     end
 
+    player = "Player#1"
 
-    grapple_dir = get("Player.grapple.direction.x")
-    velocity = get("Player.actor.velocity.x")
-    is_grapple_connected = get("Player.grapple.isConnected")
+    grapple_dir = get(player..".grapple.direction.x")
+    velocity = get(player..".actor.velocity.x")
+    is_grapple_connected = get(player..".grapple.isConnected")
     -- using both jump held and vy because vy doesn't reset until you swing or touch ground or something
     -- inverted y because i hate jump being negative values
-    jumping = get("Player.jumpHeld") and -get("Player.jumpVelocity.y") > 0
+    jumping = get(player..".jumpHeld") and -get(player..".jumpVelocity.y") > 0
     
     rg = was_swinging_left and not is_grapple_connected and velocity > 0 and jumping
 

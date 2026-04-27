@@ -39,7 +39,8 @@ local real_time_display = false -- whether it counts down from the display numbe
 
 local restart_on_hotkey = true -- on hotkey press
 local restart_on_lap = true -- resets when a lap is completed
-local restart_on_stun = false -- resets the lap when player is stunned
+-- DO NOT COMMIT default is false
+local restart_on_stun = true -- resets the lap when player is stunned
 -- restart_on_no_movement = true -- not implemented
 
 
