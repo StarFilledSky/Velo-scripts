@@ -30,7 +30,9 @@ local offset = Vector2:new(800, 600)
 local c = Color:new(255, 255, 255)
 
 function init()
-    for i = 1, 12 do table.insert(starPoints, Vector2:new(0, 0)) end
+    for i = 1, 12 do
+        table.insert(starPoints, Vector2:new(0, 0))
+    end
 end
 
 function update()
@@ -44,10 +46,9 @@ function update()
     -- local t = pingpong < loop and pingpong or (loop * 2) - pingpong
     local t = progress % loop
     local change = easeOutExpo(normalize(0, loop, t))
- 
+
     local rotationScale = 360 * 4
     local tmpTheta = (change * rotationScale * degToRad)
-
 
     for i = 1, 4, 1 do
         local grouping = ((i - 1) * 3) + 1
@@ -57,19 +58,15 @@ function update()
         starPoints[grouping] = vec2Multiply(starPoints[grouping], scale)
         starPoints[grouping] = vec2Add(starPoints[grouping], offset)
 
-
         starPoints[grouping + 1].x = cos(tmpTheta) * outerScale
         starPoints[grouping + 1].y = sin(tmpTheta) * outerScale
         starPoints[grouping + 1] = vec2Multiply(starPoints[grouping + 1], scale)
         starPoints[grouping + 1] = vec2Add(starPoints[grouping + 1], offset)
 
-
         starPoints[grouping + 2].x = cos(tmpTheta + breakpoint) * insideScale
         starPoints[grouping + 2].y = sin(tmpTheta + breakpoint) * insideScale
         starPoints[grouping + 2] = vec2Multiply(starPoints[grouping + 2], scale)
         starPoints[grouping + 2] = vec2Add(starPoints[grouping + 2], offset)
-
-
 
         tmpTheta = tmpTheta + (90 * degToRad)
     end
@@ -94,107 +91,19 @@ function easeInOutQuint(x)
     end
 end
 
-
 function render()
     if #starPoints < 2 then
         return
     end
-    c.r = 255
 
-            drawTriangles({
-            starPoints[1],
-            starPoints[2],
-            offset,
+    drawTriangles({starPoints[1], starPoints[2], offset, starPoints[2], starPoints[3], offset, starPoints[4],
+                   starPoints[5], offset, starPoints[5], starPoints[6], offset, starPoints[7], starPoints[8], offset,
 
-            starPoints[2],
-            starPoints[3],
-            offset,
+                   starPoints[8], starPoints[9], offset, starPoints[10], starPoints[11], offset, starPoints[11],
+                   starPoints[12], offset}, c)
 
-            starPoints[4],
-            starPoints[5],
-            offset,
-
-            starPoints[5],
-            starPoints[6],
-            offset,
-
-            starPoints[7],
-            starPoints[8],
-            offset,
-
-            starPoints[8],
-            starPoints[9],
-            offset,
-
-            starPoints[10],
-            starPoints[11],
-            offset,
-
-            starPoints[11],
-            starPoints[12],
-            offset,
-
-
-        }, c)
-
-    -- for i = 1, 4, 1 do
-    --     local grouping = ((i - 1) * 3) + 1
-
-    --     drawTriangles({
-    --         starPoints[grouping],
-    --         starPoints[grouping+1],
-    --         offset,
-
-    --         starPoints[grouping+1],
-    --         starPoints[grouping+2],
-    --         offset,
-
-    --     }, c)
-
-    -- end
-
-    -- inner triangles
-    -- for i = 1, 4, 1 do
-    --     local grouping = ((i - 1) * 3) + 1
-
-    --     drawTriangles({
-    --         starPoints[grouping + 2],
-    --         starPoints[grouping + 3],
-    --         offset,
-
-    --     }, c)
-    -- end
-        -- c.r = 0
-    drawTriangles({
-            starPoints[3],
-            starPoints[4],
-            offset,
-
-            starPoints[6],
-            starPoints[7],
-            offset,
-
-            starPoints[9],
-            starPoints[10],
-            offset,
-
-            starPoints[12],
-            starPoints[1],
-            offset,
-    }, c)
-
-    -- for i = 1, #starPoints - 1, 1 do
-    --     local p1 = vec2Add(starPoints[i], offset)
-    --     local p2 = vec2Add(starPoints[i + 1], offset)
-    --     drawLine(p1, p2, 2, Color:new(255, 255, 255))
-    -- end
-
-    -- local p1 = vec2Add(starPoints[#starPoints], offset)
-    -- local p2 = vec2Add(starPoints[1], offset)
-    -- drawLine(p1, p2, 2, Color:new(255, 255, 255))
-
-    -- local test = vec2Add(Vector2:new(0, 0), offset)
-    -- local fuck = starPoints[2]
+    drawTriangles({starPoints[3], starPoints[4], offset, starPoints[6], starPoints[7], offset, starPoints[9],
+                   starPoints[10], offset, starPoints[12], starPoints[1], offset}, c)
 
 end
 
