@@ -2,8 +2,6 @@
 --
 --
 --
-
-
 local success, util = pcall(require, "Velo\\scripts\\skyutil")
 if not success then
     echo("Module failed to load: " .. util)
@@ -17,63 +15,54 @@ local maxDeg = 360
 local timeTracking = 0
 local maxTime = 5 -- when it reaches 100
 
-
 local theta = 0
 local starPoints = {}
 local degToRad = math.pi / 180 -- multiply
 local progress = 0
 local loop = 2
 
+function init()
+
+    for i = 1, 12, 1 do
+        table.insert(starPoints, Vector2:new(0, 0))
+    end
+
+end
 
 function update()
---     if isReleased(hotkey) then -- on press initialize the reset
+    --     if isReleased(hotkey) then -- on press initialize the reset
 
---     end
+    --     end
 
     local time = get("Velo.deltaSec")
     progress = progress + time
     local pingpong = progress % (loop * 2)
     local t = pingpong < loop and pingpong or (loop * 2) - pingpong
-    
-
 
     local change = easeInOutQuint(normalize(0, loop, t))
-    for i = 1, #starPoints do starPoints[i] = nil end
 
-
-    
---     -- local uwu = normalize(0, 360, tmpTheta)
---     -- echo(tostring(tmpTheta))
     local rotationScale = 360
     local tmpTheta = (change * rotationScale * degToRad)
---     -- theta = theta + 
 
     local scale = 200
     local insideScale = 40
     local breakpoint = 15 * degToRad -- deg
     for i = 1, 4, 1 do
+        local grouping = ((i - 1) * 3) + 1
 
-        local x = cos(tmpTheta - breakpoint)
-        local y = sin(tmpTheta - breakpoint)
-        local p1 = Vector2:new(x * insideScale, y * insideScale)
+        starPoints[grouping].x = cos(tmpTheta - breakpoint) * insideScale
+        starPoints[grouping].y = sin(tmpTheta - breakpoint) * insideScale
 
-        local x = cos(tmpTheta)
-        local y = sin(tmpTheta)
-        local p2 = Vector2:new(x * scale, y * scale)
+        starPoints[grouping + 1].x = cos(tmpTheta) * scale
+        starPoints[grouping + 1].y = sin(tmpTheta) * scale
 
-        local x = cos(tmpTheta + breakpoint)
-        local y = sin(tmpTheta + breakpoint)
-        local p3 = Vector2:new(x * insideScale, y * insideScale)
+        starPoints[grouping + 2].x = cos(tmpTheta + breakpoint) * insideScale
+        starPoints[grouping + 2].y = sin(tmpTheta + breakpoint) * insideScale
 
-        table.insert(starPoints, p1)
-        table.insert(starPoints, p2)
-        table.insert(starPoints, p3)
 
         tmpTheta = tmpTheta + (90 * degToRad)
     end
 
-
-    
 end
 
 -- returns value between 0-1
@@ -111,8 +100,6 @@ function render()
 
 end
 
-
-
 function vec2Add(vec1, vec2)
     if type(vec2) == "table" then
         return Vector2:new(vec1.x + vec2.x, vec1.y + vec2.y)
@@ -129,6 +116,8 @@ function vec2Multiply(vec1, vec2)
     end
 end
 
+init()
+update()
 onPostUpdate = update
 onPostDraw = render
 
