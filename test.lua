@@ -40,7 +40,7 @@ function update()
     -- local t = pingpong < loop and pingpong or (loop * 2) - pingpong
     local t = progress % loop
     local change = easeOutExpo(normalize(0, loop, t))
-
+ -- 
     local rotationScale = 360 * 4
     local tmpTheta = (change * rotationScale * degToRad)
 
