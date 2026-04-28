@@ -23,7 +23,7 @@ local progress = 0
 local loop = 2
 
 
-function update()
+local function update()
     if isReleased(hotkey) then -- on press initialize the reset
 
     end
@@ -34,19 +34,20 @@ function update()
     local t = pingpong < loop and pingpong or (loop * 2) - pingpong
     
 
-    echo(string.format("%1.2f", t))
+
     local change = easeInOutQuint(normalize(0, loop, t))
-        
+
     starPoints = {}
 
     
     -- local uwu = normalize(0, 360, tmpTheta)
     -- echo(tostring(tmpTheta))
-    local tmpTheta = theta
-    theta = theta + (change * degToRad)
+local rotationScale = 360
+    local tmpTheta = (change * rotationScale * degToRad)
+    -- theta = theta + 
 
-    local scale = 100
-    local insideScale = 20
+    local scale = 200
+    local insideScale = 40
     local breakpoint = 15 * degToRad -- deg
     for i = 1, 4, 1 do
 
@@ -62,9 +63,9 @@ function update()
         local y = math.sin(tmpTheta + breakpoint)
         local p3 = Vector2:new(x * insideScale, y * insideScale)
 
-        table.insert(starPoints, p1)
-        table.insert(starPoints, p2)
-        table.insert(starPoints, p3)
+        -- table.insert(starPoints, p1)
+        -- table.insert(starPoints, p2)
+        -- table.insert(starPoints, p3)
 
         tmpTheta = tmpTheta + (90 * degToRad)
     end
@@ -126,8 +127,6 @@ function vec2Multiply(vec1, vec2)
     end
 end
 
--- update()
--- render()
 onPostUpdate = update
 onPostDraw = render
 
