@@ -10,6 +10,8 @@ if not success then
     return
 end
 
+local cos, sin = math.cos, math.sin
+
 local degOffset = 0
 local maxDeg = 360
 local timeTracking = 0
@@ -23,10 +25,10 @@ local progress = 0
 local loop = 2
 
 
-local function update()
-    if isReleased(hotkey) then -- on press initialize the reset
+function update()
+--     if isReleased(hotkey) then -- on press initialize the reset
 
-    end
+--     end
 
     local time = get("Velo.deltaSec")
     progress = progress + time
@@ -36,36 +38,36 @@ local function update()
 
 
     local change = easeInOutQuint(normalize(0, loop, t))
+    for i = 1, #starPoints do starPoints[i] = nil end
 
-    starPoints = {}
 
     
-    -- local uwu = normalize(0, 360, tmpTheta)
-    -- echo(tostring(tmpTheta))
-local rotationScale = 360
+--     -- local uwu = normalize(0, 360, tmpTheta)
+--     -- echo(tostring(tmpTheta))
+    local rotationScale = 360
     local tmpTheta = (change * rotationScale * degToRad)
-    -- theta = theta + 
+--     -- theta = theta + 
 
     local scale = 200
     local insideScale = 40
     local breakpoint = 15 * degToRad -- deg
     for i = 1, 4, 1 do
 
-        local x = math.cos(tmpTheta - breakpoint)
-        local y = math.sin(tmpTheta - breakpoint)
+        local x = cos(tmpTheta - breakpoint)
+        local y = sin(tmpTheta - breakpoint)
         local p1 = Vector2:new(x * insideScale, y * insideScale)
 
-        local x = math.cos(tmpTheta)
-        local y = math.sin(tmpTheta)
+        local x = cos(tmpTheta)
+        local y = sin(tmpTheta)
         local p2 = Vector2:new(x * scale, y * scale)
 
-        local x = math.cos(tmpTheta + breakpoint)
-        local y = math.sin(tmpTheta + breakpoint)
+        local x = cos(tmpTheta + breakpoint)
+        local y = sin(tmpTheta + breakpoint)
         local p3 = Vector2:new(x * insideScale, y * insideScale)
 
-        -- table.insert(starPoints, p1)
-        -- table.insert(starPoints, p2)
-        -- table.insert(starPoints, p3)
+        table.insert(starPoints, p1)
+        table.insert(starPoints, p2)
+        table.insert(starPoints, p3)
 
         tmpTheta = tmpTheta + (90 * degToRad)
     end
