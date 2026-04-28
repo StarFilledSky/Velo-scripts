@@ -10,12 +10,19 @@ end
 
 local cos, sin = math.cos, math.sin
 
--- local degOffset = 0
--- local maxDeg = 360
--- local timeTracking = 0
--- local maxTime = 5 -- when it reaches 100
+local AnimActor = {}
+function AnimActor:new(_pos, _scale, _rot)
+    local obj = AnimActor
+    setmetatable(obj, AnimActor)
+    self.pos = _pos
+    self.scale = _scale
+    self.rot = _rot
+    self.render = function() end
+end
 
-local theta = 0
+
+
+
 local starPoints = {}
 local degToRad = math.pi / 180 -- multiply
 local progress = 0
@@ -34,6 +41,8 @@ function init()
         table.insert(starPoints, Vector2:new(0, 0))
     end
 end
+
+
 
 function update()
     --     if isReleased(hotkey) then -- on press initialize the reset
