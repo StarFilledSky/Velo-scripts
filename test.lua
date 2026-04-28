@@ -36,12 +36,12 @@ function update()
 
     local time = get("Velo.deltaSec")
     progress = progress + time
-    local pingpong = progress % (loop * 2)
-    local t = pingpong < loop and pingpong or (loop * 2) - pingpong
+    -- local pingpong = progress % (loop * 2)
+    -- local t = pingpong < loop and pingpong or (loop * 2) - pingpong
+    local t = progress % loop
+    local change = easeOutExpo(normalize(0, loop, t))
 
-    local change = easeInOutQuint(normalize(0, loop, t))
-
-    local rotationScale = 360
+    local rotationScale = 360 * 4
     local tmpTheta = (change * rotationScale * degToRad)
 
     local scale = 200
@@ -59,7 +59,6 @@ function update()
         starPoints[grouping + 2].x = cos(tmpTheta + breakpoint) * insideScale
         starPoints[grouping + 2].y = sin(tmpTheta + breakpoint) * insideScale
 
-
         tmpTheta = tmpTheta + (90 * degToRad)
     end
 
@@ -69,6 +68,10 @@ end
 function normalize(min, max, value)
     local norm = (value - min) / (max - min)
     return norm
+end
+
+function easeOutExpo(x)
+    return x == 1 and 1 or 1 - (2 ^ (-10 * x))
 end
 
 function easeInOutQuint(x)
