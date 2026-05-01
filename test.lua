@@ -10,18 +10,39 @@ end
 
 local cos, sin = math.cos, math.sin
 
+-- track sequence hosts tracks. tracks can have actions that modify actors
+
+
+local TrackSequence = {}
+local Track = {}
+local Action = {} -- i could do something more similar to keyframes here
 local AnimActor = {}
-function AnimActor:new(_pos, _scale, _rot)
+
+
+function AnimActor:new(_pos, _scale, _rot, _visible)
     local obj = AnimActor
     setmetatable(obj, AnimActor)
-    self.pos = _pos
-    self.scale = _scale
-    self.rot = _rot
-    self.render = function() end
+    
+    self.visible = true or _visible
+    self.pos = _pos or Vector2(0, 0)
+    self.scale = _scale or Vector2(1, 1)
+    self.rot = _rot or 0
+
+    return obj
+end
+
+function Track:new(position, length)
+    self.timelinePosition = 0
+    self.update = function(delta) end
+    self.render = function(delta) end
+end
+
+function TrackSequence:new()
+
 end
 
 
-
+local star = AnimActor:new()
 
 local starPoints = {}
 local degToRad = math.pi / 180 -- multiply
@@ -37,6 +58,9 @@ local offset = Vector2:new(800, 600)
 local c = Color:new(255, 255, 255)
 
 function init()
+
+
+
     for i = 1, 12 do
         table.insert(starPoints, Vector2:new(0, 0))
     end
