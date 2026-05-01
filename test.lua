@@ -17,12 +17,6 @@ local Track = {}
 local Timeline = {}
 
 -- Vector2, Vector2, float, _visibility:boolean
-
----@class AnimObjState
----@field _position Vector2
----@field _scale Vector2
----@field rotation number
----@field _visibility boolean
 function AnimObjState:new(_position, _scale, _rotation, _visibility)
     local obj = {}
     local track = {{}, {}, {}}
