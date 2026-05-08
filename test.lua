@@ -28,11 +28,7 @@ function Easing.normalize(min, max, val)
 end
 
 function Easing.clamp(min, max, x)
-    local step1 = math.max(min, x)
-    local step2 = math.min(max, step1)
     return math.min(max, math.max(min, x))
-    -- return math.min(max, x)
-    -- return step2
 end
 
 -- i forgot t 0-1 value
