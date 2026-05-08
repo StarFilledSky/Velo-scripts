@@ -24,15 +24,7 @@ local Easing = {}
 -- what the fuck is this called in math
 -- map value to 0-1
 function Easing.normalize(min, max, val)
-    -- local diff = 0 - min
-    -- local a = 0
-    -- local a = max + diff
-    -- local b = val + diff
-    -- local c = b / a
-    -- return c
-
     return (val + (0 - min)) / (max + (0 - min))
-
 end
 
 function Easing.clamp(min, max, x)
