@@ -12,15 +12,74 @@
 -- 
 
 
+--[[
+an animation is
+a focus
+a duration
+an interpolation method
+
+--]]
+local Easing = {}
+
+-- what the fuck is this called in math
+-- map value to 0-1
+function Easing.normalize(min, max, val)
+    -- local diff = 0 - min
+    -- local a = 0
+    -- local a = max + diff
+    -- local b = val + diff
+    -- local c = b / a
+    -- return c
+
+    return (val + (0 - min)) / (max + (0 - min))
+
+end
+
+function Easing.clamp(min, max, x)
+    local step1 = math.max(min, x)
+    local step2 = math.min(max, step1)
+    return math.min(max, math.max(min, x))
+    -- return math.min(max, x)
+    -- return step2
+end
+
+-- i forgot t 0-1 value
+function Easing.lerp(startPoint, endPoint, t)
+    -- return (1-t) * p1 + p2
+    -- return (startPoint + ( endPoint - startPoint) * t)
+    return (1 - t) * startPoint + (t * endPoint)
+end
+
+function Easing.easeOutExpo(x)
+    return x == 1 and 1 or 1 - (2 ^ (-10 * x))
+end
+
+function Easing.easeInOutQuint(x)
+    if x < 0.5 then
+        return 16 * x * x * x * x * x
+    else
+        return (1 - ((-2 * x + 2) ^ 5)) / 2
+    end
+end
+
+local g = get
 local AnimObjState = {}
-local Track = {}
+local Animation = {}
 local Timeline = {}
 
--- Vector2, Vector2, float, _visibility:boolean
+
+---@class AnimObjState
+---@param self AnimObjState
+---@param _position Vector2
+---@param _scale Vector2
+---@param _rotation number
+---@param _visibility boolean
+---@return AnimObjState
 function AnimObjState:new(_position, _scale, _rotation, _visibility)
     local obj = {}
     local track = {{}, {}, {}}
     setmetatable(obj, AnimObjState)
+
     self.position = _position or Vector2:new(0, 0)
     self.scale = _scale or  Vector2:new(0, 0)
     self.rotation = _rotation or 0.0
@@ -28,46 +87,112 @@ function AnimObjState:new(_position, _scale, _rotation, _visibility)
     return obj
 end
 
+---@param self AnimObjState
+---@return AnimObjState
+function AnimObjState:copy()
+    return AnimObjState:new(self._position, self._scale, self._rotation, self._visibility)
+end
+
 -- AnimObjState, {Keyframes} optional
-function Track:new(_focus, _keyframes)
+function Animation:new(_focus, _duration, _params)
     local obj = {}
-    setmetatable(obj, Track)
+    setmetatable(obj, Animation)
 
     self.focus = _focus
-    self.keyframes = _keyframes or {}
+    self.duration = _duration or 0
+    --[[
+    {{value: "State value to be changed", postion:value, inter:easingfunction}, .. }
+    --]]
+    self.params = _params or {}
 
     return obj
 
 
 end
 
-function Track:update(t)
-
-end
 
 function Timeline:new()
     local obj = {}
-    setmetatable(obj, Timeline)
+    setmetatable(obj, self)
+    self.__index = self
 
     self.tracks = {}
     self.trackPosition = 0
 
     return obj
 end
+local a = 0
+local b = 4
 
-local width = get("Velo.screenWidth")
-local height = get("Velo.screenHeight")
+-- update every track
+function Timeline:update(_trackPosition)
+    local str = ""
+    local n = Easing.normalize(a, b, _trackPosition)
+    str = str .. tostring(n)
+    -- local clampedVal = Easing.clamp(a, b, _trackPosition)
+    -- local easedVal = Easing.lerp(a, b, 0.5)
+    -- str = str .. " | "
+    -- str = str .. tostring(easedVal)
+    -- echo(tostring(_trackPosition))
+    echo(string.format("%2.2f", str))
+
+end
+
+-- update the object to the value
+function Animation:update(t)
+
+end
+
 
 local tl = Timeline:new()
-local rect = AnimObjState:new(Vector2:new(0, 0),
-Vector2:new(width, height),
-0,
-true)
-local keyframes = {}
+local trackPos = 0 -- seconds
+local loopPos = 0
+local loopTimer = 4 -- seconds
+
+local function update()
+    local dt = g("Velo.deltaSec")
+    tl:update(loopPos)
+
+
+    trackPos = trackPos + dt
+    loopPos = trackPos % loopTimer
+end
+-- update()
+onPostUpdate = update
+
+-- local width = get("Velo.screenWidth")
+-- local height = get("Velo.screenHeight")
+
+-- local _track = Animation:new(rect, {})
+
+-- local rect = AnimObjState:new(Vector2:new(0, 0), Vector2:new(width / 2, height / 2), 0, true)
+-- local keyframes = {}
+
+-- -- keys
+-- local k1 = rect:copy()
+
+-- local k2 = k1:copy()
+-- k2.position.x = k2.position.x + 300
+-- k2.rotation = 360
+
+-- local k3 = k2:copy()
+-- k3.scale = vec2Multiply(k3.scale, 2)
+-- k3.rotation = 0
 
 
 
-table.insert(tl.tracks, )
+
+-- table.insert(_track.keyframes, {k1, k2})
+-- table.insert(_track.keyframes, {k2, k3})
+-- table.insert(_track.keyframes, {k3, k2}) 
+
+
+
+-- table.insert(tl.tracks, _track)
+
+
+
+
 
 
 -- the issue with this is that there's not really an orginization, no way besides iterating over everything to get the next value if there is one
