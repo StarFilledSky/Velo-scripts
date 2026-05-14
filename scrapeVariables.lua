@@ -1,5 +1,6 @@
 -- @author sky!!
 -- @description This is for scaping all the variables accessible by Velo and exporting them to be put into the wiki. Rewrite from lt and lt2.
+-- doesn't really account for a description yet.
 local util = require("Velo\\scripts\\skyutil")
 
 local variablesPath = "C:/Home/Projects/Velo-Docs/src/Variables.md"
@@ -10,7 +11,9 @@ local Categories = {
     VARIABLE = 2,
     CLASS = 3
 }
-local passAmount = 3 -- the amount of times to scan for new classes buried in other classes
+-- the amount of times to scan for new classes buried in other classes 
+-- 7 just to be thorough for whatever reason, it shouldn't hang at all
+local passAmount = 7
 
 local types = {}
 local coveredTypes = {}
@@ -54,8 +57,8 @@ function scrapeVariables()
     end
 
     for i = 1, passAmount do
-        for type, _ in pairs(types) do
-            if not contains(coveredTypes, type) then -- if it hasn't already been added
+        for type in pairs(types) do
+            if not contains(coveredTypes, type) and v ~= 0 then -- if it hasn't already been added
                 local children = scrapeChildren(type)
                 if #children > 1 then
                     local x = Variable:new(type, Categories.CLASS, "Class")
@@ -102,6 +105,7 @@ function getBaseTargets()
 
     for k, target in pairs(targetList) do
         local x = Variable:new(target, Categories.TARGET, target)
+        types[target] = 0
         table.insert(obj, x)
     end
 
@@ -114,7 +118,7 @@ function printVar(var)
 end
 
 function writeVariablesPage(set)
-    local file = io.open(path, "w")
+    local file = io.open(variablesPath, "w")
 
     for k, v in ipairs(set) do
         local str = string.format("## `%s` %s  \n", EnumPretty(Categories, v.category), v.name)
@@ -130,6 +134,13 @@ function writeVariablesPage(set)
 end
 
 function writeClassPage(set)
+    local file = io.open(classesPath, "w")
+    for k, v in ipairs(set) do
+        local cat = EnumPretty(Categories, v.category)
+        local str = string.format("`%s`\n [%s][%s-%s]  \n{: .velo-category .velo-%s }\n\n", cat, v.name,  string.lower(cat), string.lower(v.name), string.lower(cat))
+        file:write(str)
+    end
+    file:close()
 
 end
 
@@ -166,3 +177,4 @@ end
 
 local variableList = scrapeVariables()
 writeVariablesPage(variableList)
+writeClassPage(variableList)
