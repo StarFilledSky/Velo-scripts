@@ -1,10 +1,13 @@
 -- @author sky!!
 -- @description This is for scaping all the variables accessible by Velo and exporting them to be put into the wiki. Rewrite from lt and lt2.
--- doesn't really account for a description yet.
+-- doesn't really account for a description for variables yet.
+-- @todo
+--- CCollisionFilter doesn't get picked up for some reason :/
 local util = require("Velo\\scripts\\skyutil")
 
 local variablesPath = "C:/Home/Projects/Velo-Docs/src/Variables.md"
 local classesPath = "C:/Home/Projects/Velo-Docs/src/Classes.md"
+local colorCSSPath = "C:/Home/Projects/Velo-Docs/src/assets/stylesheets/code-color.css"
 
 local Categories = {
     TARGET = 1,
@@ -120,16 +123,20 @@ end
 function writeVariablesPage(set)
     local file = io.open(variablesPath, "w")
 
+
     for k, v in ipairs(set) do
-        local str = string.format("## `%s` %s  \n", EnumPretty(Categories, v.category), v.name)
+        local cat = EnumPretty(Categories, v.category)
+        local str = string.format("## `%s` %s  ## {: .velo-category .velo-%s }\n\n", cat, v.name, string.lower(cat))
         for _, child in pairs(v.children) do
-            str = str .. string.format("> `%s` %s  \n", child.type, child.name)
+            str = str .. string.format("> `%s` %s  \n{: .velo-category .velo-%s }\n\n", child.type, child.name, child.type)
+            
+
+
         end
         -- > <!-- replacement --> `float`<!--:--> height  
 
         file:write(str)
     end
-
     file:close()
 end
 
@@ -141,6 +148,19 @@ function writeClassPage(set)
         file:write(str)
     end
     file:close()
+
+end
+-- Generates colors for each variable type
+-- I think this is a bit much visually so i'm not including it
+function writeColorCSSPage(set)
+    local cssfile = io.open(colorCSSPath, "w")
+    for type in pairs(types) do
+    
+        local color = string.format("hsl(%d, 100%%, 81%%)", math.random(1, 360))
+        local colorstr = string.format(".velo-%s code { color: %s }\n", type, color)
+        cssfile:write(colorstr)       
+    end
+    cssfile:close()
 
 end
 
